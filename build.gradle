@@ -1,0 +1,60 @@
+plugins {
+    id 'java-library'
+    id "io.toolebox.git-versioner" version "1.6.5"
+    id 'maven-publish'
+    //id 'application'
+}
+
+group 'com.github.cfogrady'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    implementation 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    //testImplementation 'org.slf4j:slf4j-simple:1.7.32'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
+}
+
+compileJava {
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+}
+
+//application {
+//    mainClass.set("com.github.cfogrady.dcom.Main")
+//}
+
+versioner {
+    pattern {
+        pattern = "%M.%m.%p(.%c-%h)"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.github.cfogrady'
+            artifactId 'lib-dcom'
+            from components.java
+        }
+    }
+}
