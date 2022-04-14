@@ -34,8 +34,12 @@ public class DM20BattleRunner {
                 char c = (char) currentByte;
                 receivedDataString.append(c);
                 if(c == '\n') {
-                    packets.addAll(EventDrivenSerialPort.convertTextToReceivedPacket(receivedDataString.toString()));
+                    String receivedString = receivedDataString.toString();
+                    packets.addAll(EventDrivenSerialPort.convertTextToReceivedPacket(receivedString));
                     receivedDataString.setLength(0); // clear
+                    if(packets.size() != 10) {
+                        packets.clear();
+                    }
                 }
             }
             if(packets.size() == 10) {
